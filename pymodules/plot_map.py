@@ -60,12 +60,12 @@ def plot_map(grb_arr, lats, lons):
         zorder=3,
     )
 
-
     func = lambda x, pos: "{:.2f}".format(
         numpy.power((numpy.power(10, (x / 10.0)) / 200.0), 5 / 8))
     fmt = matplotlib.ticker.FuncFormatter(func)
-    cax = fig.add_axes([1.03, 0.02, 0.02, 0.95])
-    fig.colorbar(im, cax=cax, orientation='vertical', format=fmt)
+    cax = fig.add_axes([1.03, 0.05, 0.02, 0.95])
+    cbar = fig.colorbar(im, cax=cax, orientation='vertical', format=fmt)
+    cbar.ax.tick_params(labelsize=14)
 
     CS = ax.contour(
         lons,
@@ -92,6 +92,13 @@ def plot_map(grb_arr, lats, lons):
             transform=ax.transAxes,
             fontsize=14,
             zorder=6)
+
+    cax.text(0.0,
+             -0.04,
+             f'[mm/hr]',
+             transform=cax.transAxes,
+             fontsize=14,
+             zorder=6)
 
     dt_str = validity_dt.strftime('%Y%m%d%H%M')
 
