@@ -47,7 +47,7 @@ def plot_map(grb_arr, lats, lons):
     dbz_arr[dbz_arr > 0] = 10 * numpy.log10(
         200 * (numpy.power(dbz_arr[dbz_arr > 0], 8 / 5)))
 
-    fig = plt.figure(figsize=(12, 12), dpi=100)
+    fig = plt.figure(figsize=(12.1, 12), dpi=121)
 
     fig, ax = configure_plot(fig)
 
