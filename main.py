@@ -11,7 +11,7 @@ def main():
 
     arrs, lats, lons = read_grib(f'./data/era5-mslp-precip.grib')
 
-    grb_arr = arrs[75]
+    grb_arr = arrs[138]
 
     plot_map(grb_arr, lats, lons)
 
