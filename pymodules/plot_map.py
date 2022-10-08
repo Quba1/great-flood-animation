@@ -35,10 +35,14 @@ def configure_plot(fig):
 def plot_map(grb_arr, lats, lons):
     prcp_arr, mslp_arr, validity_dt = grb_arr
 
+    lons = lons[38:93, 40:121]
+    lats = lats[38:93, 40:121]
+    prcp_arr = prcp_arr[38:93, 40:121]
+    mslp_arr = mslp_arr[38:93, 40:121]
+
     dbz_arr = prcp_arr
-    dbz_arr[dbz_arr > 0] = 10 * numpy.log10(200 * (numpy.power(dbz_arr[dbz_arr > 0], 8 / 5)))
-    print(dbz_arr.max())
-    print(dbz_arr.min())
+    dbz_arr[dbz_arr > 0] = 10 * numpy.log10(
+        200 * (numpy.power(dbz_arr[dbz_arr > 0], 8 / 5)))
 
     fig = plt.figure(figsize=(12, 12), dpi=100)
 
@@ -48,11 +52,11 @@ def plot_map(grb_arr, lats, lons):
         lons,
         lats,
         dbz_arr,
-        # levels=numpy.arange(0, 60, 1),
         vmin=0.0,
         vmax=65.0,
-        cmap=get_radar_cmap(1.0),
+        cmap=get_radar_cmap(0.7),
         transform=ccrs.PlateCarree(),
+        zorder=3,
     )
 
     CS = ax.contour(
@@ -62,6 +66,7 @@ def plot_map(grb_arr, lats, lons):
         levels=numpy.arange(970.0, 1040.0, 5.0),
         colors="gray",
         transform=ccrs.PlateCarree(),
+        zorder=4,
     )
     ax.clabel(CS)
 
@@ -72,7 +77,7 @@ def plot_map(grb_arr, lats, lons):
                           height=0.5,
                           facecolor='white',
                           transform=ccrs.PlateCarree(),
-                          zorder=6))
+                          zorder=5))
     ax.text(0.775,
             0.01,
             f'{dt_text}',
