@@ -36,6 +36,8 @@ def configure_plot(fig):
 def plot_map(grb_arr, lats, lons):
     prcp_arr, mslp_arr, validity_dt = grb_arr
 
+    print(f"Plotting {validity_dt}")
+
     lons = lons[38:93, 40:121]
     lats = lats[38:93, 40:121]
     prcp_arr = prcp_arr[38:93, 40:121]
