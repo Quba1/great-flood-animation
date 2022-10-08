@@ -1,4 +1,5 @@
 from matplotlib import patches
+import matplotlib
 import matplotlib.pyplot as plt
 import gc
 import cartopy.crs as ccrs
@@ -15,7 +16,7 @@ def configure_plot(fig):
         [0, 0, 1, 1],
         yticks=[],
         xticks=[],
-        frame_on=False,
+        frame_on=True,
         aspect='auto',
         projection=ccrs.Mercator(),
     )
@@ -48,7 +49,7 @@ def plot_map(grb_arr, lats, lons):
 
     fig, ax = configure_plot(fig)
 
-    ax.pcolormesh(
+    im = ax.pcolormesh(
         lons,
         lats,
         dbz_arr,
@@ -58,6 +59,13 @@ def plot_map(grb_arr, lats, lons):
         transform=ccrs.PlateCarree(),
         zorder=3,
     )
+
+
+    func = lambda x, pos: "{:.2f}".format(
+        numpy.power((numpy.power(10, (x / 10.0)) / 200.0), 5 / 8))
+    fmt = matplotlib.ticker.FuncFormatter(func)
+    cax = fig.add_axes([1.03, 0.02, 0.02, 0.95])
+    fig.colorbar(im, cax=cax, orientation='vertical', format=fmt)
 
     CS = ax.contour(
         lons,
@@ -89,6 +97,7 @@ def plot_map(grb_arr, lats, lons):
 
     fig.savefig(f"./output/map-{dt_str}.png",
                 bbox_inches="tight",
-                pad_inches=0)
+                pad_inches=0.3)
+
     plt.close(fig)
     gc.collect()
